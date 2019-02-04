@@ -6,6 +6,24 @@ utilisé par les applications front du pass culture.
 Tant que les tests fonctionnels ne sont pas écrits, cette lib ne peut être considérée en production.
 
 ## Basic Usage
+You need to add first the data reducer in your root reducer:
+
+```javascript
+import { createData } from 'pass-culture-shared'
+import { combineReducers } from 'redux'
+
+const data = createData()
+
+const rootReducer = combineReducers({
+  ...
+  data,
+})
+
+const store = createStore(rootReducer)
+```
+
+Then you can use withLogin in your component:
+
 ```javascript
 
 import withLogin from 'with-login'
