@@ -1,2 +1,2 @@
 export * from './selectCurrentUser'
-export withLogin from './withLogin'
+export * from './withLogin'

@@ -7,7 +7,7 @@ import { compose } from 'redux'
 
 import { resolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
 
-const withLogin = (config = {}) => WrappedComponent => {
+export const withLogin = (config = {}) => WrappedComponent => {
   const { failRedirect, isRequired, successRedirect } = config
 
   class _withLogin extends PureComponent {
