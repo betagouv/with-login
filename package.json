@@ -3,7 +3,7 @@
     "classnames": "2.2.5",
     "eslint": "^5.8.0",
     "lodash.uniq": "^4.5.0",
-    "pass-culture-shared": "^0.0.102",
+    "pass-culture-shared": "^0.0.101",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -66,5 +66,5 @@
     "watch": "nodemon --watch src --exec \"npm run compile\"",
     "test:unit": "yarn jest --env=jsdom ./src"
   },
-  "version": "0.0.1"
+  "version": "0.0.2"
 }
