@@ -1,2 +1,5 @@
+import { withLogin } from './withLogin'
+
 export * from './selectCurrentUser'
-export * from './withLogin'
+
+export default withLogin
