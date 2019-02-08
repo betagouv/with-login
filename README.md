@@ -8,18 +8,35 @@ Tant que les tests fonctionnels ne sont pas écrits, cette lib ne peut être con
 ## Basic Usage
 You need to add first the data reducer in your root reducer:
 
-```javascript
-import { createData } from 'pass-culture-shared'
-import { combineReducers } from 'redux'
+You need to install a redux-saga setup with the watchDataActions and the data reducer:
 
-const data = createData()
+```javascript
+import {
+  applyMiddleware,
+  combineReducers,
+  createStore
+} from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import { createData, watchDataActions } from 'redux-saga-data'
+
+const sagaMiddleware = createSagaMiddleware()
+const storeEnhancer = applyMiddleware(sagaMiddleware)
+
+function* rootSaga() {
+  yield all([
+    watchDataActions({
+      url: <your api url like "https://myfoo.com">,
+    }),
+  ])
+}
+
+sagaMiddleware.run(rootSaga)
 
 const rootReducer = combineReducers({
-  ...
-  data,
+  data: createData({ foos: [] }),
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, storeEnhancer)
 ```
 
 Then you can use withLogin in your component:

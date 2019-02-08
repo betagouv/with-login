@@ -1,9 +1,9 @@
-import { requestData } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+import { requestData } from 'redux-react-saga'
 
 import { resolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
 
