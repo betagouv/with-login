@@ -9,6 +9,7 @@ import { resolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
 
 export const withLogin = (config = {}) => WrappedComponent => {
   const { failRedirect, isRequired, successRedirect } = config
+  const currentUserPath = config.currentUserPath || "users/current"
 
   class _withLogin extends PureComponent {
     constructor() {
@@ -27,12 +28,12 @@ export const withLogin = (config = {}) => WrappedComponent => {
       }
 
       dispatch(
-        requestData("GET", "users/current", {
+        requestData("GET", currentUserPath, {
           handleFail: () => {
             if (failRedirect) {
               let computedFailRedirect = failRedirect
               if (typeof failRedirect === 'function') {
-                computedFailRedirect = successRedirect(this.props)
+                computedFailRedirect = failRedirect(this.props)
               }
               if (computedFailRedirect === location.pathname) {
                 return
