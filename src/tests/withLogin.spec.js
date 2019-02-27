@@ -8,11 +8,13 @@ import { Route, Router } from 'react-router-dom'
 import { withLogin } from '../withLogin'
 
 const Test = () => <p> I can be rendered because I am logged ! </p>
-const LoginTest = withLogin(Test)
 
 describe('src | components | pages | hocs | withLogin', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
+      // given
+      const LoginTest = withLogin()(Test)
+
       // when
       const wrapper = shallow(<LoginTest />)
 
