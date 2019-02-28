@@ -3,13 +3,22 @@ import 'babel-polyfill'
 import { mount, shallow } from 'enzyme'
 import { createBrowserHistory } from 'history'
 import React from 'react'
-import { Route, Router } from 'react-router-dom'
+import { Route, Router, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
 import { withLogin } from '../withLogin'
-
-const Test = () => <p> I can be rendered because I am logged ! </p>
+import { configureTestStore,
+  configureFetchDataWithLoginFail,
+  configureFetchDataWithLoginSuccess,
+  Test
+} from './configure'
 
 describe('src | components | pages | hocs | withLogin', () => {
+
+  beforeEach(() => {
+    fetch.resetMocks()
+  })
+
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // given
@@ -23,116 +32,54 @@ describe('src | components | pages | hocs | withLogin', () => {
       expect(wrapper).toMatchSnapshot()
     })
   })
-  /*
-  describe('functions ', () => {
-    describe('parse', () =>
-      it('withLogin passes a query.parse function that formats the location search string into in a params object', () => {
-        // given
-        const history = createBrowserHistory()
-        history.push('/test?page=1&mots-cles=test')
 
+  describe('functions', () => {
+    describe('login with success', () => {
+      it('should render test component when login is a success', done => {
         // when
-        const wrapper = mount(
-          <Router history={history}>
-            <Route path="/test">
-              <LoginTest />
-            </Route>
-          </Router>
-        )
+        const history = createBrowserHistory()
+        history.push('/test')
+        const store = configureTestStore()
+        const LoginTest = withLogin()(Test)
+        configureFetchDataWithLoginSuccess()
 
         // then
-        const { query } = wrapper.find('Test').props()
-        const expectedParams = { 'mots-cles': 'test', page: '1' }
-        expect(query.parse()).toEqual(expectedParams)
-      }))
-
-    describe('clear', () =>
-      it('withLogin passes query.clear function that erases the location.search string', () => {
-        // given
-        const history = createBrowserHistory()
-        history.push('/test?page=1&mots-cles=test')
-        const wrapper = mount(
-          <Router history={history}>
-            <Route path="/test">
-              <LoginTest />
-            </Route>
-          </Router>
+        mount(
+          <Provider store={store}>
+            <Router history={history}>
+              <Route path="/test">
+                <LoginTest onMountCallback={done} />
+              </Route>
+            </Router>
+          </Provider>
         )
-        const { query } = wrapper.find('Test').props()
-
+      })
+    })
+    describe('login with fail', () => {
+      it('should redirect to failRedirect when login is a fail', done => {
         // when
-        query.clear()
+        const history = createBrowserHistory()
+        history.push('/test')
+        const store = configureTestStore()
+        const LoginTest = withLogin({ failRedirect: () => "/signin" })(Test)
+        configureFetchDataWithLoginFail()
 
         // then
-        const expectedParams = {}
-        expect(query.parse()).toEqual(expectedParams)
-      }))
-
-    describe('change', () =>
-      it('withLogin passes query.change that overwrites the location.search', () => {
-        // given
-        const history = createBrowserHistory()
-        history.push('/test?page=1&mots-cles=test')
-        const wrapper = mount(
-          <Router history={history}>
-            <Route path="/test">
-              <LoginTest />
-            </Route>
-          </Router>
+        mount(
+          <Provider store={store}>
+            <Router history={history}>
+              <Switch>
+                <Route path="/test">
+                  <LoginTest />
+                </Route>
+                <Route path="/signin">
+                  <Test onMountCallback={done} />
+                </Route>
+              </Switch>
+            </Router>
+          </Provider>
         )
-        const { query } = wrapper.find('Test').props()
-
-        // when
-        query.change({ 'mots-cles': null, page: 2 })
-
-        // then
-        const expectedParams = { page: '2' }
-        expect(query.parse()).toEqual(expectedParams)
-      }))
-
-    describe('add', () =>
-      it('withLogin passes query.add function that concatenates values in the location.search', () => {
-        // given
-        const history = createBrowserHistory()
-        history.push('/test?jours=0,1&mots-cles=test')
-        const wrapper = mount(
-          <Router history={history}>
-            <Route path="/test">
-              <LoginTest />
-            </Route>
-          </Router>
-        )
-        const { query } = wrapper.find('Test').props()
-
-        // when
-        query.add('jours', '2')
-
-        // then
-        const expectedParams = { jours: '0,1,2', 'mots-cles': 'test' }
-        expect(query.parse()).toEqual(expectedParams)
-      }))
-
-    describe('remove', () =>
-      it('withLogin passes query.remove function that pops values from the location.search', () => {
-        // given
-        const history = createBrowserHistory()
-        history.push('/test?jours=0,1&mots-cles=test')
-        const wrapper = mount(
-          <Router history={history}>
-            <Route path="/test">
-              <LoginTest />
-            </Route>
-          </Router>
-        )
-        const { query } = wrapper.find('Test').props()
-
-        // when
-        query.remove('jours', '1')
-
-        // then
-        const expectedParams = { jours: '0', 'mots-cles': 'test' }
-        expect(query.parse()).toEqual(expectedParams)
-      }))
+      })
+    })
   })
-  */
 })

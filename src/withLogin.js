@@ -8,7 +8,13 @@ import { requestData } from 'redux-saga-data'
 import { resolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
 
 export const withLogin = (config = {}) => WrappedComponent => {
-  const { failRedirect, isRequired, successRedirect } = config
+  const {
+    failRedirect,
+    successRedirect
+  } = config
+  const isRequired = typeof config.isRequired === 'undefined'
+    ? true
+    : config.isRequired
   const currentUserPath = config.currentUserPath || "users/current"
 
   class _withLogin extends PureComponent {
