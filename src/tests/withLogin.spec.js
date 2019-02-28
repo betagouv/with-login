@@ -9,9 +9,10 @@ import { Provider } from 'react-redux'
 import { withLogin } from '../withLogin'
 import { configureTestStore,
   configureFetchDataWithLoginFail,
-  configureFetchDataWithLoginSuccess,
-  Test
+  configureFetchDataWithLoginSuccess
 } from './configure'
+import Foo from './Foo'
+import Signin from './Signin'
 
 describe('src | components | pages | hocs | withLogin', () => {
 
@@ -22,10 +23,10 @@ describe('src | components | pages | hocs | withLogin', () => {
   describe('snapshot', () => {
     it('should match snapshot', () => {
       // given
-      const LoginTest = withLogin()(Test)
+      const LoginFoo = withLogin()(Foo)
 
       // when
-      const wrapper = shallow(<LoginTest />)
+      const wrapper = shallow(<LoginFoo />)
 
       // then
       expect(wrapper).toBeDefined()
@@ -40,7 +41,7 @@ describe('src | components | pages | hocs | withLogin', () => {
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginTest = withLogin()(Test)
+        const LoginFoo = withLogin()(Foo)
         configureFetchDataWithLoginSuccess()
 
         // then
@@ -48,7 +49,7 @@ describe('src | components | pages | hocs | withLogin', () => {
           <Provider store={store}>
             <Router history={history}>
               <Route path="/test">
-                <LoginTest onMountCallback={done} />
+                <LoginFoo onMountCallback={done} />
               </Route>
             </Router>
           </Provider>
@@ -61,7 +62,7 @@ describe('src | components | pages | hocs | withLogin', () => {
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginTest = withLogin({ failRedirect: () => "/signin" })(Test)
+        const LoginFoo = withLogin({ failRedirect: () => "/signin" })(Foo)
         configureFetchDataWithLoginFail()
 
         // then
@@ -70,10 +71,10 @@ describe('src | components | pages | hocs | withLogin', () => {
             <Router history={history}>
               <Switch>
                 <Route path="/test">
-                  <LoginTest />
+                  <LoginFoo />
                 </Route>
                 <Route path="/signin">
-                  <Test onMountCallback={done} />
+                  <Signin onMountCallback={done} />
                 </Route>
               </Switch>
             </Router>

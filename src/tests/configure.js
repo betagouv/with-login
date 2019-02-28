@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 import {
   applyMiddleware,
   combineReducers,
@@ -43,25 +41,6 @@ export function configureFetchDataWithLoginSuccess () {
   fetch.mockResponse(JSON.stringify(
     { email: 'michel.marx@youpi.fr' }
   ), { status: 200 })
-}
-
-export class Test extends Component {
-  componentDidMount () {
-    const { onMountCallback } = this.props
-    onMountCallback()
-  }
-
-  render () {
-    return null
-  }
-}
-
-Test.defaultProps = {
-  onMountCallback: () => {}
-}
-
-Test.propTypes = {
-  onMountCallback: PropTypes.func
 }
 
 export default configureTestStore
