@@ -60,5 +60,5 @@ export default withLogin({
 
 Depending on what returns GET 'https://myfoo.com/users/current':
 
-  - if it is a 200 with { email: 'Michel Marx' }, FooPage will be rendered,
+  - if it is a 200 with { email: 'michel.momarx@youpi.fr' }, FooPage will be rendered,
   - if it is a 400, app will redirect to '/signin' page.
