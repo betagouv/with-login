@@ -8,7 +8,8 @@ Tant que les tests fonctionnels ne sont pas écrits, cette lib ne peut être con
 ## Basic Usage
 You need to add first the data reducer in your root reducer:
 
-You need to install a redux-saga setup with the watchDataActions and the data reducer:
+You need to install a redux-saga setup with the watchDataActions and the data reducer,
+don't forget to specify the url of your api here:
 
 ```javascript
 import {
@@ -17,6 +18,7 @@ import {
   createStore
 } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import { all } from 'redux-saga/effects'
 import { createData, watchDataActions } from 'redux-saga-data'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -25,18 +27,18 @@ const storeEnhancer = applyMiddleware(sagaMiddleware)
 function* rootSaga() {
   yield all([
     watchDataActions({
-      url: <your api url like "https://myfoo.com">,
+      url: "https://myfoo.com",
     }),
   ])
 }
 
-sagaMiddleware.run(rootSaga)
-
 const rootReducer = combineReducers({
-  data: createData({ foos: [] }),
+  data: createData({ users: [] }),
 })
 
 const store = createStore(rootReducer, storeEnhancer)
+
+sagaMiddleware.run(rootSaga)
 ```
 
 Then you can use withLogin in your component:
@@ -55,5 +57,13 @@ const FooPage = () => {
   )
 }
 
-export default withLogin({ failRedirect: '/connexion' })(FooPage)
+export default withLogin({
+  currentUserPath: 'users/current',
+  failRedirect: '/signin'
+})(FooPage)
 ```
+
+Depending on what returns GET 'https://myfoo.com/users/current':
+
+  - if it is a 200 with { email: 'Michel Marx' }, FooPage will be rendered,
+  - if it is a 400, app will redirect to '/signin' page.
