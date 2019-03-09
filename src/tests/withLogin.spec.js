@@ -11,8 +11,8 @@ import { configureTestStore,
   configureFetchDataWithLoginFail,
   configureFetchDataWithLoginSuccess
 } from './configure'
-import Foo from './Foo'
-import Signin from './Signin'
+import { Foo } from './Foo'
+import { Signin } from './Signin'
 
 describe('src | components | pages | hocs | withLogin', () => {
 
@@ -36,7 +36,7 @@ describe('src | components | pages | hocs | withLogin', () => {
 
   describe('functions', () => {
     describe('login with success', () => {
-      it('should render test component when login is a success', done => {
+      it.only('should render test component when login is a success', done => {
         // when
         const history = createBrowserHistory()
         history.push('/test')
