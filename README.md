@@ -22,7 +22,7 @@ const storeEnhancer = applyMiddleware(sagaMiddleware)
 function* rootSaga() {
   yield all([
     watchDataActions({
-      url: "https://myfoo.com",
+      rootUrl: "https://myfoo.com",
     }),
   ])
 }
@@ -53,7 +53,7 @@ const FooPage = () => {
 }
 
 export default withLogin({
-  currentUserPath: 'users/current',
+  currentUserApiPath: '/users/current',
   failRedirect: '/signin'
 })(FooPage)
 ```

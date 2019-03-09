@@ -15,7 +15,7 @@ export const withLogin = (config = {}) => WrappedComponent => {
   const isRequired = typeof config.isRequired === 'undefined'
     ? true
     : config.isRequired
-  const currentUserPath = config.currentUserPath || "users/current"
+  const currentUserApiPath = config.currentUserApiPath || "/users/current"
 
   class _withLogin extends PureComponent {
     constructor() {
@@ -34,7 +34,8 @@ export const withLogin = (config = {}) => WrappedComponent => {
       }
 
       dispatch(
-        requestData("GET", currentUserPath, {
+        requestData({
+          apiPath: currentUserApiPath,
           handleFail: () => {
             if (failRedirect) {
               let computedFailRedirect = failRedirect
