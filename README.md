@@ -2,6 +2,9 @@
 
 React hoc component for rendering page only on user log success. It uses [redux-saga-data](https://github.com/betagouv/redux-saga-data) as implicit helper.
 
+[![CircleCI](https://circleci.com/gh/betagouv/with-login/tree/master.svg?style=svg)](https://circleci.com/gh/betagouv/with-login/tree/master)
+[![npm version](https://img.shields.io/npm/v/with-login.svg?style=flat-square)](https://npmjs.org/package/with-login)
+
 ## Basic Usage
 You need to add first the data reducer in your root reducer:
 
