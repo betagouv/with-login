@@ -1,6 +1,6 @@
 # with-login
 
-React hoc component for rendering page only on user log success. It uses redux-saga-data as implicit helper.
+React hoc component for rendering page only on user log success. It uses [redux-saga-data](https://github.com/betagouv/redux-saga-data) as implicit helper.
 
 ## Basic Usage
 You need to add first the data reducer in your root reducer:
