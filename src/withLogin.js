@@ -74,8 +74,9 @@ export const withLogin = (config = {}) => WrappedComponent => {
     }
 
     render() {
+      const { currentUser } = this.props
       const { canRenderChildren } = this.state
-      if (!canRenderChildren) {
+      if (!canRenderChildren || !currentUser) {
         return null
       }
       return <WrappedComponent {...this.props} />
