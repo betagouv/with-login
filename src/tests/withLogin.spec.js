@@ -8,8 +8,8 @@ import { Provider } from 'react-redux'
 
 import { withLogin } from '../withLogin'
 import { configureTestStore,
-  configureFetchDataWithLoginFail,
-  configureFetchDataWithLoginSuccess
+  configureFetchCurrentUserWithLoginFail,
+  configureFetchCurrentUserWithLoginSuccess
 } from './configure'
 import { Foo } from './Foo'
 import { Signin } from './Signin'
@@ -42,7 +42,7 @@ describe('src | components | pages | hocs | withLogin', () => {
         history.push('/test')
         const store = configureTestStore()
         const LoginFoo = withLogin()(Foo)
-        configureFetchDataWithLoginSuccess()
+        configureFetchCurrentUserWithLoginSuccess()
 
         // then
         mount(
@@ -63,7 +63,7 @@ describe('src | components | pages | hocs | withLogin', () => {
         history.push('/test')
         const store = configureTestStore()
         const LoginFoo = withLogin({ failRedirect: () => "/signin" })(Foo)
-        configureFetchDataWithLoginFail()
+        configureFetchCurrentUserWithLoginFail()
 
         // then
         mount(
