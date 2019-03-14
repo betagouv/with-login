@@ -5842,9 +5842,9 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-redux-saga-data@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/redux-saga-data/-/redux-saga-data-1.6.0.tgz#9b372da705d0fac8683844e3e5d4b425b16e72de"
+redux-saga-data@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/redux-saga-data/-/redux-saga-data-1.8.0.tgz#282fb029cf2cb811124e11a4426a0016f597694d"
   dependencies:
     eslint "^5.8.0"
     lodash.uniqby "^4.7.0"
