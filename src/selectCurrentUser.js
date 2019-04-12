@@ -1,16 +1,11 @@
 import { createSelector } from 'reselect'
 
+import { currentUserUUID } from './currentUserUUID'
+
 export const selectCurrentUser = createSelector(
   state => state.data.users,
   users => users.find(user => user &&
-    user.currentUserUUID === selectCurrentUser.currentUserUUID)
+    user.currentUserUUID === currentUserUUID)
 )
-
-export const createResolveCurrentUser = currentUserUUID => userFromRequest => {
-  if (!userFromRequest) {
-    return null
-  }
-  return Object.assign({ currentUserUUID }, userFromRequest)
-}
 
 export default selectCurrentUser

@@ -2,11 +2,8 @@ import { requestData as defaultRequestData } from 'fetch-normalize-data'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
-import uuid from 'uuid'
 
-import { createResolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
-
-const currentUserUUID = uuid()
+import { resolveCurrentUser } from './resolveCurrentUser'
 
 export const withLogin = (config = {}) => WrappedComponent => {
   const {
@@ -19,9 +16,6 @@ export const withLogin = (config = {}) => WrappedComponent => {
     : config.isRequired
   const currentUserApiPath = config.currentUserApiPath || "/users/current"
   const requestData = config.requestData || defaultRequestData
-
-  selectCurrentUser.currentUserUUID = currentUserUUID
-  const resolveCurrentUser = createResolveCurrentUser(currentUserUUID)
 
   class _withLogin extends PureComponent {
     constructor(props) {
