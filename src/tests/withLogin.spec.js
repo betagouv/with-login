@@ -41,7 +41,7 @@ describe('src | components | pages | hocs | withLogin', () => {
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginFoo = withLogin()(Foo)
+        const LoginFoo = withLogin({ dispatch: store.dispatch })(Foo)
         configureFetchCurrentUserWithLoginSuccess()
 
         // then
@@ -62,7 +62,10 @@ describe('src | components | pages | hocs | withLogin', () => {
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginFoo = withLogin({ failRedirect: () => "/signin" })(Foo)
+        const LoginFoo = withLogin({
+          dispatch: store.dispatch,
+          failRedirect: () => "/signin"
+        })(Foo)
         configureFetchCurrentUserWithLoginFail()
 
         // then

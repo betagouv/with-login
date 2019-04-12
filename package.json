@@ -2,6 +2,7 @@
   "dependencies": {
     "classnames": "2.2.5",
     "eslint": "^5.8.0",
+    "fetch-normalize-data": "^1.0.0",
     "lodash.uniq": "^4.5.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
@@ -9,7 +10,6 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
-    "redux-saga-data": "^1.8.0",
     "reselect": "^3.0.1",
     "uuid": "^3.3.2"
   },

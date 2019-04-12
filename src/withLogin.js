@@ -1,14 +1,13 @@
+import { requestData as defaultRequestData } from 'fetch-normalize-data'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { compose } from 'redux'
-import { requestData } from 'redux-saga-data'
 
-import { resolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
+import { resolveCurrentUser } from './selectCurrentUser'
 
 export const withLogin = (config = {}) => WrappedComponent => {
   const {
+    dispatch,
     failRedirect,
     successRedirect
   } = config
@@ -16,15 +15,19 @@ export const withLogin = (config = {}) => WrappedComponent => {
     ? true
     : config.isRequired
   const currentUserApiPath = config.currentUserApiPath || "/users/current"
+  const requestData = config.requestData || defaultRequestData
 
   class _withLogin extends PureComponent {
     constructor() {
       super()
-      this.state = { canRenderChildren: false }
+      this.state = {
+        canRenderChildren: false,
+        currentUser: null
+      }
     }
 
     componentDidMount = () => {
-      const { currentUser, dispatch, history, location } = this.props
+      const { currentUser, history, location } = this.props
       const { canRenderChildren } = this.state
 
       // we are logged already, so it is already cool:
@@ -55,7 +58,9 @@ export const withLogin = (config = {}) => WrappedComponent => {
               this.setState({ canRenderChildren: true })
             }
           },
-          handleSuccess: () => {
+          handleSuccess: (state, action) => {
+            const { payload: { datum } } = action
+
             if (successRedirect) {
               let computedSuccessRedirect = successRedirect
               if (typeof successRedirect === 'function') {
@@ -67,15 +72,18 @@ export const withLogin = (config = {}) => WrappedComponent => {
               history.push(computedSuccessRedirect)
               return
             }
-            this.setState({ canRenderChildren: true })
+
+            this.setState({
+              canRenderChildren: true,
+              currentUser: datum
+            })
           },
           resolve: resolveCurrentUser
         }))
     }
 
     render() {
-      const { currentUser } = this.props
-      const { canRenderChildren } = this.state
+      const { canRenderChildren, currentUser } = this.state
 
       if (
         !canRenderChildren ||
@@ -84,31 +92,16 @@ export const withLogin = (config = {}) => WrappedComponent => {
         return null
       }
 
-      return <WrappedComponent {...this.props} />
+      return <WrappedComponent {...this.props} currentUser={currentUser} />
     }
   }
 
-  _withLogin.defaultProps = {
-    currentUser: null,
-  }
-
   _withLogin.propTypes = {
-    currentUser: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-    dispatch: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
   }
 
-  function mapStateToProps(state) {
-    return {
-      currentUser: selectCurrentUser(state)
-    }
-  }
-
-  return compose(
-    withRouter,
-    connect(mapStateToProps)
-  )(_withLogin)
+  return withRouter(_withLogin)
 }
 
 export default withLogin
