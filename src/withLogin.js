@@ -7,13 +7,9 @@ import { resolveCurrentUser } from './selectCurrentUser'
 
 export const withLogin = (config = {}) => WrappedComponent => {
   const {
-    dispatch,
     failRedirect,
     successRedirect
   } = config
-  if (typeof dispatch === 'undefined') {
-    throw Error('You need to precise the dispatch function inside withLogin config')
-  }
 
   const isRequired = typeof config.isRequired === 'undefined'
     ? true
@@ -32,7 +28,7 @@ export const withLogin = (config = {}) => WrappedComponent => {
     }
 
     componentDidMount = () => {
-      const { history, location } = this.props
+      const { dispatch, history, location } = this.props
       const { canRenderChildren, currentUser } = this.state
 
       // we are logged already, so it is already cool:
@@ -106,6 +102,7 @@ export const withLogin = (config = {}) => WrappedComponent => {
   }
 
   _withLogin.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     history: PropTypes.shape().isRequired,
     initialCurrentUser: PropTypes.shape(),
     location: PropTypes.shape().isRequired,

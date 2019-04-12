@@ -48,7 +48,16 @@ Then you can use withLogin in your component:
 
 ```javascript
 
+import { connect } from 'react-redux'
 import withLogin from 'with-login'
+
+const withReduxLogin = compose(
+  connect(),
+  withLogin({
+    currentUserApiPath: '/users/current',
+    failRedirect: '/signin',
+  })
+)
 
 const FooPage = () => {
   // withLogin passes a currentUser props
@@ -61,11 +70,7 @@ const FooPage = () => {
   )
 }
 
-export default withLogin({
-  currentUserApiPath: '/users/current',
-  dispatch: store.dispatch,
-  failRedirect: '/signin',
-})(FooPage)
+export default compose(withReduxLogin)(FooPage)
 ```
 
 Depending on what returns GET 'https://myfoo.com/users/current':
@@ -80,7 +85,6 @@ Depending on what returns GET 'https://myfoo.com/users/current':
 | name | type | example | isRequired | default | description |
 | -- | -- | -- | -- | -- | -- |
 | currentUserApiPath | `string` |  | no | '/users/current' | apiPath that will be joined with your rootUrl to get the authenticated user from your auth server |
-| dispatch | `function` | See test | yes | 'undefined' | reducer dispatch function generally obtained from redux store.dispatch |
 | failRedirect | `function` | See test | no | 'undefined' | function triggered after fail of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
 | initialCurrentUser | `object` |  | no | 'null' | object saying if withLogin needs to be rendered already with a currentUser. Useful when we want to do redux-persist login |
 | requestData | `function` | See test | yes | requestData from fetch-normalize-data | action creator which will trigger the action to request '/users/current' |

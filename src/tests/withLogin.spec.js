@@ -4,7 +4,8 @@ import { mount, shallow } from 'enzyme'
 import { createBrowserHistory } from 'history'
 import React from 'react'
 import { Route, Router, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { connect, Provider } from 'react-redux'
+import { compose } from 'redux'
 
 import { withLogin } from '../withLogin'
 import { configureTestStore,
@@ -36,12 +37,12 @@ describe('src | components | pages | hocs | withLogin', () => {
 
   describe('functions', () => {
     describe('login with success', () => {
-      it.only('should render test component when login is a success', done => {
+      it('should render test component when login is a success', done => {
         // when
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginFoo = withLogin({ dispatch: store.dispatch })(Foo)
+        const LoginFoo = compose(connect(), withLogin())(Foo)
         configureFetchCurrentUserWithLoginSuccess()
 
         // then
@@ -62,10 +63,13 @@ describe('src | components | pages | hocs | withLogin', () => {
         const history = createBrowserHistory()
         history.push('/test')
         const store = configureTestStore()
-        const LoginFoo = withLogin({
-          dispatch: store.dispatch,
-          failRedirect: () => "/signin"
-        })(Foo)
+        const LoginFoo = compose(
+          connect(),
+          withLogin({
+            dispatch: store.dispatch,
+            failRedirect: () => "/signin"
+          })
+        )(Foo)
         configureFetchCurrentUserWithLoginFail()
 
         // then
