@@ -1,6 +1,7 @@
 # with-login
 
 React hoc component for rendering page only on user log success.
+NOTE: this package will be soon deprecated and instead use [with-react-login](https://github.com/betagouv/with-react-login)
 
 [![CircleCI](https://circleci.com/gh/betagouv/with-login/tree/master.svg?style=svg)](https://circleci.com/gh/betagouv/with-login/tree/master)
 [![npm version](https://img.shields.io/npm/v/with-login.svg?style=flat-square)](https://npmjs.org/package/with-login)
