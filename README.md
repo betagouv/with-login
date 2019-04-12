@@ -86,7 +86,7 @@ Depending on what returns GET 'https://myfoo.com/users/current':
 | -- | -- | -- | -- | -- | -- |
 | currentUserApiPath | `string` |  | no | '/users/current' | apiPath that will be joined with your rootUrl to get the authenticated user from your auth server |
 | failRedirect | `function` | See test | no | 'undefined' | function triggered after fail of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
-| initialCurrentUser | `object` |  | no | 'null' | object saying if withLogin needs to be rendered already with a currentUser. Useful when we want to do redux-persist login |
+| currentUser | `object` |  | no | 'null' | object saying if withLogin needs to be rendered already with a currentUser. Useful when we want to do redux-persist login |
 | requestData | `function` | See test | yes | requestData from fetch-normalize-data | action creator which will trigger the action to request '/users/current' |
 | successRedirect | `function` | See test | no | 'undefined' | function triggered after success of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
 | isRequired | `boolean` | See test | no | 'true' | Boolean saying if the React WrappedComponent will need to wait a success from the currentUserApiPath to be rendered. |

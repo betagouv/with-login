@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import uuid from 'uuid'
 
 export const selectCurrentUser = createSelector(
   state => state.data.users,
@@ -7,16 +6,10 @@ export const selectCurrentUser = createSelector(
     user.currentUserUUID === selectCurrentUser.currentUserUUID)
 )
 
-export function resolveCurrentUser (userFromRequest) {
+export const createResolveCurrentUser = currentUserUUID => userFromRequest => {
   if (!userFromRequest) {
     return null
   }
-
-  // give to this user an id that will make
-  // selectCurrentUser the only selector able to refind it
-  const currentUserUUID = uuid()
-  selectCurrentUser.currentUserUUID = currentUserUUID
-
   return Object.assign({ currentUserUUID }, userFromRequest)
 }
 
