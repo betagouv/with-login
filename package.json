@@ -48,7 +48,8 @@
     "pretty-quick": "^1.6.0",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.5.1",
-    "redux-saga": "^0.15.3"
+    "redux-saga": "^0.15.3",
+    "redux-saga-data": "2.2.3"
   },
   "keywords": [
     "react",

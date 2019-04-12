@@ -1,13 +1,16 @@
 # with-login
 
-React hoc component for rendering page only on user log success. It uses [redux-saga-data](https://github.com/betagouv/redux-saga-data) as implicit helper.
+React hoc component for rendering page only on user log success.
 
 [![CircleCI](https://circleci.com/gh/betagouv/with-login/tree/master.svg?style=svg)](https://circleci.com/gh/betagouv/with-login/tree/master)
 [![npm version](https://img.shields.io/npm/v/with-login.svg?style=flat-square)](https://npmjs.org/package/with-login)
 
 ## Basic Usage
-You need to add first the data reducer in your root reducer:
+Let's show an example in a redux-saga-data install, but it is compatible also with
+redux-thunk-data or react-hooks-data or any kind of fetch system as long as you declare
+dispatch and requestData action in the config of with-login.
 
+You need to add first the data reducer in your root reducer:
 You need to install a redux-saga setup with the watchDataActions and the data reducer,
 don't forget to specify the url of your api here:
 
@@ -60,7 +63,8 @@ const FooPage = () => {
 
 export default withLogin({
   currentUserApiPath: '/users/current',
-  failRedirect: '/signin'
+  dispatch: store.dispatch,
+  failRedirect: '/signin',
 })(FooPage)
 ```
 
@@ -75,7 +79,10 @@ Depending on what returns GET 'https://myfoo.com/users/current':
 
 | name | type | example | isRequired | default | description |
 | -- | -- | -- | -- | -- | -- |
-| currentUserApiPath | `string` | [See test](https://github.com/betagouv/normalized-data-state/blob/887323e6146d5eec40203b4f4b692bfcb65a4cd9/src/tests/getNormalizedMergedState.spec.js#L92) | no | '/users/current' | apiPath that will be joined with your rootUrl to get the authenticated user from your auth server |
-| failRedirect | `function` | [See test](https://github.com/betagouv/normalized-data-state/blob/887323e6146d5eec40203b4f4b692bfcb65a4cd9/src/tests/getNormalizedMergedState.spec.js#L92) | no | 'undefined' | function triggered after fail of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
-| successRedirect | `function` | [See test](https://github.com/betagouv/normalized-data-state/blob/887323e6146d5eec40203b4f4b692bfcb65a4cd9/src/tests/getNormalizedMergedState.spec.js#L92) | no | 'undefined' | function triggered after success of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
-| isRequired | `boolean` | [See test](https://github.com/betagouv/normalized-data-state/blob/887323e6146d5eec40203b4f4b692bfcb65a4cd9/src/tests/getNormalizedMergedState.spec.js#L92) | no | 'true' | Boolean saying if the React WrappedComponent will need to wait a success from the currentUserApiPath to be rendered. |
+| currentUserApiPath | `string` |  | no | '/users/current' | apiPath that will be joined with your rootUrl to get the authenticated user from your auth server |
+| dispatch | `function` | See test | yes | 'undefined' | reducer dispatch function generally obtained from redux store.dispatch |
+| failRedirect | `function` | See test | no | 'undefined' | function triggered after fail of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
+| initialCurrentUser | `object` |  | no | 'null' | object saying if withLogin needs to be rendered already with a currentUser. Useful when we want to do redux-persist login |
+| requestData | `function` | See test | yes | requestData from fetch-normalize-data | action creator which will trigger the action to request '/users/current' |
+| successRedirect | `function` | See test | no | 'undefined' | function triggered after success of your auth currentUserApiPath request saying. It should return a redirect path towards which react-router will history push. |
+| isRequired | `boolean` | See test | no | 'true' | Boolean saying if the React WrappedComponent will need to wait a success from the currentUserApiPath to be rendered. |

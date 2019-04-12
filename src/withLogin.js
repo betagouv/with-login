@@ -11,6 +11,10 @@ export const withLogin = (config = {}) => WrappedComponent => {
     failRedirect,
     successRedirect
   } = config
+  if (typeof dispatch === 'undefined') {
+    throw Error('You need to precise the dispatch function inside withLogin config')
+  }
+
   const isRequired = typeof config.isRequired === 'undefined'
     ? true
     : config.isRequired
@@ -18,17 +22,18 @@ export const withLogin = (config = {}) => WrappedComponent => {
   const requestData = config.requestData || defaultRequestData
 
   class _withLogin extends PureComponent {
-    constructor() {
-      super()
+    constructor(props) {
+      super(props)
+      const { initialCurrentUser } = props
       this.state = {
         canRenderChildren: false,
-        currentUser: null
+        currentUser: initialCurrentUser
       }
     }
 
     componentDidMount = () => {
-      const { currentUser, history, location } = this.props
-      const { canRenderChildren } = this.state
+      const { history, location } = this.props
+      const { canRenderChildren, currentUser } = this.state
 
       // we are logged already, so it is already cool:
       // we can render children
@@ -96,9 +101,14 @@ export const withLogin = (config = {}) => WrappedComponent => {
     }
   }
 
+  _withLogin.defaultProps = {
+    initialCurrentUser: null
+  }
+
   _withLogin.propTypes = {
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+    history: PropTypes.shape().isRequired,
+    initialCurrentUser: PropTypes.shape(),
+    location: PropTypes.shape().isRequired,
   }
 
   return withRouter(_withLogin)
