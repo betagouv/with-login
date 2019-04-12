@@ -6,6 +6,8 @@ import uuid from 'uuid'
 
 import { createResolveCurrentUser, selectCurrentUser } from './selectCurrentUser'
 
+const currentUserUUID = uuid()
+
 export const withLogin = (config = {}) => WrappedComponent => {
   const {
     failRedirect,
@@ -18,7 +20,6 @@ export const withLogin = (config = {}) => WrappedComponent => {
   const currentUserApiPath = config.currentUserApiPath || "/users/current"
   const requestData = config.requestData || defaultRequestData
 
-  const currentUserUUID = uuid()
   selectCurrentUser.currentUserUUID = currentUserUUID
   const resolveCurrentUser = createResolveCurrentUser(currentUserUUID)
 
