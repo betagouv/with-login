@@ -1,4 +1,4 @@
-# with-login
+# with-login (DEPRECATED) 
 
 React hoc component for rendering page only on user log success.
 NOTE: this package will be soon deprecated and instead use [with-react-login](https://github.com/betagouv/with-react-login)
